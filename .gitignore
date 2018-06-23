@@ -3,3 +3,14 @@
 
 # build files
 build/
+
+# editor config
+#.vscode/
+
+# vs files
+.vs/
+Debug/
+*.sdf
+*.opendb
+*.sln
+*.vcxproj*
