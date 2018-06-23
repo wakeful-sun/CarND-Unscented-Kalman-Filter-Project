@@ -1,5 +1,5 @@
 #include "sensor.h"
 
-Sensor::Sensor()
+Sensor::Sensor(int stateSize) : _stateSize(stateSize)
 {
 }

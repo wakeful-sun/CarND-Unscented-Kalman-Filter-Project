@@ -2,7 +2,6 @@
 #define LIDAR_SENSOR_PACKAGE_H_
 
 #include "sensor.h"
-#include "measurement_package.h"
 
 class LidarSensor : public Sensor
 {
@@ -12,7 +11,8 @@ protected:
 	double std_laspy_ = 0.15;  // Laser measurement noise standard deviation position2 in m
 
 public:
-	LidarSensor();
+	LidarSensor(int stateSize);
+	Eigen::VectorXd ConvertToState(const MeasurementPackage& measurement) override;
 	void Update(const MeasurementPackage& measurement) override;
 };
 

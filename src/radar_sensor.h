@@ -1,8 +1,7 @@
-#ifndef LIDAR_SENSOR_PACKAGE_H_
-#define LIDAR_SENSOR_PACKAGE_H_
+#ifndef RADAR_SENSOR_PACKAGE_H_
+#define RADAR_SENSOR_PACKAGE_H_
 
 #include "sensor.h"
-#include "measurement_package.h"
 
 class RadarSensor : public Sensor {
 protected:
@@ -12,8 +11,9 @@ protected:
 	double std_radrd_ = 0.3;   // Radar measurement noise standard deviation radius change in m/s
 
 public:
-	RadarSensor();
+	RadarSensor(int stateSize);
+	Eigen::VectorXd ConvertToState(const MeasurementPackage& measurement) override;
 	void Update(const MeasurementPackage& measurement) override;
 };
 
-#endif /* LIDAR_SENSOR_PACKAGE_H_ */
+#endif /* RADAR_SENSOR_PACKAGE_H_ */

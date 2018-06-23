@@ -1,43 +1,33 @@
 #include "ukf.h"
+#include "sensor.h"
 #include <iostream>
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
-using std::vector;
 
-UKF::UKF() {
-	use_laser_ = true;  // if this is false, laser measurements will be ignored (except during init)
-	use_radar_ = true;  // if this is false, radar measurements will be ignored (except during init)
-	x_ = VectorXd(5);   // initial state vector
-	P_ = MatrixXd(5, 5);// initial covariance matrix
-	
+UKF::UKF(int stateSize)
+	: _stateSize(stateSize), P_(MatrixXd::Identity(stateSize, stateSize))
+{
+	//x_ = VectorXd(5);   // initial state vector
+	//P_ = MatrixXd(5, 5);// initial covariance matrix
+
 	std_a_ = 30;        // Process noise standard deviation longitudinal acceleration in m/s^2
 	std_yawdd_ = 30;    // Process noise standard deviation yaw acceleration in rad/s^2
-
-	//DO NOT MODIFY measurement noise values below these are provided by the sensor manufacturer.
-	std_laspx_ = 0.15;  // Laser measurement noise standard deviation position1 in m
-	std_laspy_ = 0.15;  // Laser measurement noise standard deviation position2 in m
-
-	std_radr_ = 0.3;    // Radar measurement noise standard deviation radius in m
-	std_radphi_ = 0.03; // Radar measurement noise standard deviation angle in rad
-	std_radrd_ = 0.3;   // Radar measurement noise standard deviation radius change in m/s
-	//DO NOT MODIFY measurement noise values above these are provided by the sensor manufacturer.
-
 }
 
-UKF::~UKF() {}
+bool UKF::IsInitialized()
+{
+	return isInitialized_;
+}
 
-/**
- * @param {MeasurementPackage} meas_package The latest measurement data of
- * either radar or laser.
- */
-void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
-	/**
-	TODO:
-
-	Complete this function! Make sure you switch between lidar and radar
-	measurements.
-	*/
+void UKF::Initialize(VectorXd initialState)
+{
+	if (initialState.size() != _stateSize)
+	{
+		throw "Configuration error. Initial state vector size is different from UKF state vector size.";
+	}
+	x_ = initialState;
+	isInitialized_ = true;
 }
 
 /**
@@ -45,41 +35,16 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
  * @param {double} delta_t the change in time (in seconds) between the last
  * measurement and this one.
  */
-void UKF::Prediction(double time_shift) {
-	/**
-	TODO:
+void UKF::Predict(double time_shift)
+{
 
-	Complete this function! Estimate the object's location. Modify the state
-	vector, x_. Predict sigma points, the state, and the state covariance matrix.
-	*/
 }
 
 /**
- * Updates the state and the state covariance matrix using a laser measurement.
- * @param {MeasurementPackage} meas_package
- */
-void UKF::UpdateLidar(MeasurementPackage meas_package) {
-	/**
-	TODO:
+* Updates the state and the state covariance matrix using measurement of given sensor.
+* @param {MeasurementPackage} meas_package
+*/
+void UKF::Update(const VectorXd& measurement, Sensor& sensor)
+{
 
-	Complete this function! Use lidar data to update the belief about the object's
-	position. Modify the state vector, x_, and covariance, P_.
-
-	You'll also need to calculate the lidar NIS.
-	*/
-}
-
-/**
- * Updates the state and the state covariance matrix using a radar measurement.
- * @param {MeasurementPackage} meas_package
- */
-void UKF::UpdateRadar(MeasurementPackage meas_package) {
-	/**
-	TODO:
-
-	Complete this function! Use radar data to update the belief about the object's
-	position. Modify the state vector, x_, and covariance, P_.
-
-	You'll also need to calculate the radar NIS.
-	*/
 }
